@@ -145,7 +145,16 @@ class TicketCollection {
             continue;
             }
         }
+
+        const winners = winnerIndexes.map(
+            /**
+             * @param {number} index
+             */
+            (index) => this[tickets][index]
+        );
+        return winners;
     }
 }
 
 const collection = new TicketCollection();
+module.exports = collection;
