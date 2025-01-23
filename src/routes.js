@@ -12,7 +12,7 @@ const {
     drawWinners
 } = require('./controller')
 
-router.route('t/:id').get(findByID).put(updateById).delete(deleteByID);
+router.route('/x/:id').get(findByID).put(updateById).delete(deleteByID);
 
 router.route('/u/:username').get(findByUsername).put(updateByUsername).delete(deleteByUsername);
 

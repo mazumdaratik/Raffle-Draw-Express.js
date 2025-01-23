@@ -4,12 +4,15 @@ const {readFile, writeFile} = require('./utils');
 const tickets = Symbol('tickets');
 class TicketCollection {
     constructor(){
-        this[tickets] = [];
+        (async function (){
+            this[tickets] = await readFile();
+        }.call(this));
     }
 
     create(username, price){
         const ticket = new Ticket(username, price);
-        this[tickets].push(ticket)
+        this[tickets].push(ticket);
+        writeFile(this[tickets]);
         return ticket;
     }
 
@@ -27,6 +30,7 @@ class TicketCollection {
             const ticket = this.create(username, price);
             result.push(ticket);
         }
+        writeFile(this[tickets]);
         return result;
     }
     /**
@@ -58,13 +62,13 @@ class TicketCollection {
      * @returns {Ticket[]}
      */
     findByUsername(username){
-        const tickets = this[tickets].filter(
+        const usertickets = this[tickets].filter(
             /**
              * @param {Ticket} ticket
              */
             (ticket) => ticket.username === username
         );
-        return tickets;
+        return usertickets;
     }
 
     /**
@@ -78,7 +82,7 @@ class TicketCollection {
             ticket.username = ticketBody.username ?? ticket.username;
             ticket.price = ticketBody.price ?? ticket.price;
         } 
-
+        writeFile(this[tickets]);
         return ticket;
     }
 
@@ -97,6 +101,7 @@ class TicketCollection {
              */
             (ticket) => this.updateById(ticket.id, ticketBody)
         );
+        writeFile(this[tickets]);
         return updatedTickets;
     }
 
@@ -112,6 +117,7 @@ class TicketCollection {
             return false;
         } else {
             this[tickets].splice(index, 1);
+            writeFile(this[tickets]);
             return true;
         }
     }
@@ -130,6 +136,7 @@ class TicketCollection {
              */
             (ticket) => this.deleteById(ticket.id)
         )
+        writeFile(this[tickets]);
         return deletedResult;
     }
     /**

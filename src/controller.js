@@ -26,10 +26,11 @@ exports.findAll = (req, res) => {
 
 exports.findByID = (req, res) => {
     const id = req.params.id;
-    const ticket = ticketcollection.findById(id)
+    const ticket = ticketcollection.findById(id);
     if(!ticket){
         return res.status(404).json({message: '404 not found'})
     }
+    
     res.status(200).json(ticket);
 };
 
