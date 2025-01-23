@@ -5,14 +5,19 @@ const {
     findAll,
     findByID,
     findByUsername,
+    updateById,
+    updateByUsername,
+    deleteByID,
+    deleteByUsername,
+    drawWinners
 } = require('./controller')
 
-router.route('t/:id').get(findByID).put().delete();
+router.route('t/:id').get(findByID).put(updateById).delete(deleteByID);
 
-router.route('/u/:username').get(findByUsername).put.delete();
+router.route('/u/:username').get(findByUsername).put(updateByUsername).delete(deleteByUsername);
 
 router.post('/bulk', sellBulkTicket);
-router.get('/draw');
+router.get('/draw', drawWinners);
 
 router.route('/').get(findAll).post(sellSingleTicket);
 
